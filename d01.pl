@@ -7,8 +7,6 @@
 use 5.016;    # implies strict, provides 'say'
 use warnings;
 use autodie;
-use List::Util qw/sum/;
-use Data::Dumper;
 
 #### INIT - load input data into array
 my $testing = 0;
@@ -20,6 +18,7 @@ my $file = $testing ? 'test.txt' : 'input.txt';
 }
 
 ### CODE
+# there's just one line in this problem
 my @list   = split( //, shift @input );
 my $length = scalar @list;
 my $sum_1  = 0;
@@ -28,9 +27,10 @@ my $sum_2  = 0;
 # circular list, just make a copy to avoid funky rollover arithmetic
 my @check = ( @list, @list );
 for ( my $i = 0 ; $i <= $length - 1 ; $i++ ) {
-    my $j = $i + $length / 2;
+    # first part
     if ( $check[$i] == $check[ $i + 1 ] ) { $sum_1 += $check[$i] }
-
+    # second part, it's given that the array has an even number of elements
+    my $j = $i + $length / 2;
     if ( $check[$i] == $check[$j] ) { $sum_2 += $check[$i] }
 }
 say "Part 1: $sum_1";
