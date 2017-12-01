@@ -12,10 +12,8 @@ use autodie;
 my $testing = 0;
 my @input;
 my $file = $testing ? 'test.txt' : 'input.txt';
-{
     open( my $fh, '<', "$file" );
     while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
-}
 
 ### CODE
 # there's just one line in this problem
