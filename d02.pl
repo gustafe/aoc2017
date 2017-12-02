@@ -28,7 +28,9 @@ foreach my $line (@input) {
     my $found = 0;
     while ( @row and !$found ) {
         my $a = shift @row;
-        foreach my $b (@row) {
+	# using a reverse here slightly increases the chance of
+	# finding a divisor faster
+        foreach my $b ( reverse @row) {
             if ( $a % $b == 0 ) {
                 $sum_2 += $a / $b;
                 $found = 1;
