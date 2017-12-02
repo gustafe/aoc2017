@@ -19,12 +19,12 @@ while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 my $sum_1 = 0;
 my $sum_2 = 0;
 foreach my $line (@input) {
+
     # sort the values for easier division comparison down the line
     my @row = sort { $b <=> $a } split( /\s+/, $line );
-    # could have used first/last element here as we're sorted, this is a
-    # carryover from part 1
-    $sum_1 += max(@row) - min(@row);
-    
+
+    $sum_1 += $row[0] - $row[$#row];
+
     my $found = 0;
     while ( @row and !$found ) {
         my $a = shift @row;
