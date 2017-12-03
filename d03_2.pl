@@ -41,7 +41,8 @@ $M->{$x}->{$y} = $current_val;
 
 # should really use an iterator here but eff it...
 # just generate a bunch of steps (1,1,2,2,3,3,4,4,5,5...)
-# max value found by inspection of output during development
+# each element represents number of steps to take before changing direction
+# (max value found by inspection of output during development)
 my @steplengths;
 foreach my $step ( 1 .. 25 ) {
     push @steplengths, $step;
