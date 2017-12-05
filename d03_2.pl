@@ -64,7 +64,6 @@ my ( $x, $y ) = ( 0, 0 );
 
 # store the values for each coordinate in a href of hrefs
 # an arrayref of arrayrefs might be "cleaner" but needs to be pre-created
-# this is cleaner
 $M->{$x}->{$y} = $current_val;
 
 my $dir_idx = 0;
