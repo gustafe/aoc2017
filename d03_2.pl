@@ -17,37 +17,12 @@ while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 
 ### CODE
 
-my $M;
-
-my $dirs = [ [ 1, 0 ], [ 0, 1 ], [ -1, 0 ], [ 0, -1 ] ];
+#### subs
 
 # these are from the chapter on iterators in HOP, but not in a
 # separate module
 sub NEXTVAL      { $_[0]->() }
 sub Iterator (&) { return $_[0] }
-
-sub adjacent_sum {
-    my ( $x, $y ) = @_;
-    my $sum = 0;
-    foreach my $i ( $x - 1, $x, $x + 1 ) {
-        foreach my $j ( $y - 1, $y, $y + 1 ) {
-            if ( defined $M->{$i}->{$j} ) {
-                $sum += $M->{$i}->{$j};
-            }
-        }
-    }
-    return $sum;
-}
-
-my $target = $input[0];
-
-my $current_val = 1;
-my ( $x, $y ) = ( 0, 0 );
-
-# I'm using a hashref of hashrefs here instead of arrayref of
-# arrayrefs mostly because I got weird list comprehension issues when
-# attempting to use an arrayref...
-$M->{$x}->{$y} = $current_val;
 
 # an iterator for steplengths
 # we go 1,1,2,2,3,3,... steps before changing direction
@@ -63,8 +38,40 @@ sub steplengths {
     }
 }
 
+my $M;
+
+sub adjacent_sum {
+    my ( $x, $y ) = @_;
+    my $sum = 0;
+    foreach my $i ( $x - 1, $x, $x + 1 ) {
+        foreach my $j ( $y - 1, $y, $y + 1 ) {
+            if ( defined $M->{$i}->{$j} ) {
+                $sum += $M->{$i}->{$j};
+            }
+        }
+    }
+    return $sum;
+}
+
+my $dirs = [ [ 1, 0 ], [ 0, 1 ], [ -1, 0 ], [ 0, -1 ] ];
+
+#### init
+
+my $target = $input[0];
+
+my $current_val = 1;
+my ( $x, $y ) = ( 0, 0 );
+
+# store the values for each coordinate in a href of hrefs
+# an arrayref of arrayrefs might be "cleaner" but needs to be pre-created
+# this is cleaner
+$M->{$x}->{$y} = $current_val;
+
 my $dir_idx = 0;
 my $iter    = steplengths(0);
+
+#### main loop
+
 LOOP: while ( my $step = NEXTVAL($iter) ) {
 
     if ( $dir_idx == 4 ) { $dir_idx = 0 }
