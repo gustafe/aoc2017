@@ -8,7 +8,6 @@ use 5.016;    # implies strict, provides 'say'
 use warnings;
 use autodie;
 use List::Util qw/sum/;
-use Data::Dumper;
 
 #### INIT - load input data into array
 my @input;
@@ -19,7 +18,14 @@ while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 ### CODE
 
 my $M;
+
 my $dirs = [ [ 1, 0 ], [ 0, 1 ], [ -1, 0 ], [ 0, -1 ] ];
+
+# these are from the chapter on iterators in HOP, but not in a
+# separate module
+sub NEXTVAL      { $_[0]->() }
+sub Iterator (&) { return $_[0] }
+
 sub adjacent_sum {
     my ( $x, $y ) = @_;
     my $sum = 0;
@@ -37,22 +43,30 @@ my $target = $input[0];
 
 my $current_val = 1;
 my ( $x, $y ) = ( 0, 0 );
+
+# I'm using a hashref of hashrefs here instead of arrayref of
+# arrayrefs mostly because I got weird list comprehension issues when
+# attempting to use an arrayref...
 $M->{$x}->{$y} = $current_val;
 
-# should really use an iterator here but eff it...
-# just generate a bunch of steps (1,1,2,2,3,3,4,4,5,5...)
-# each element represents number of steps to take before changing direction
-# (max value found by inspection of output during development)
-my @steplengths;
-foreach my $step ( 1 .. 25 ) {
-    push @steplengths, $step;
-    push @steplengths, $step;
+# an iterator for steplengths
+# we go 1,1,2,2,3,3,... steps before changing direction
+sub steplengths {
+    my ($m) = @_;
+    my $flag = 0;
+    return Iterator {
+        if ( $flag % 2 == 0 ) {
+            $m++;
+        }
+        $flag++;
+        return $m;
+    }
 }
 
 my $dir_idx = 0;
-LOOP: while (@steplengths) {
+my $iter    = steplengths(0);
+LOOP: while ( my $step = NEXTVAL($iter) ) {
 
-    my $step = shift @steplengths;
     if ( $dir_idx == 4 ) { $dir_idx = 0 }
     while ( $step > 0 ) {
         ( $x, $y ) =
