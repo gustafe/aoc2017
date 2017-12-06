@@ -26,7 +26,7 @@ sub debug {
 }
 
 my $count = 0;
-$seen_states{ join( '', @state ) } = $count;
+$seen_states{ "@state" } = $count;
 
 # let's loop!
 while (1) {
@@ -46,13 +46,13 @@ while (1) {
         $next++;
     }
     $count++;
-    if ( exists $seen_states{ join( '', @state ) } ) {
+    if ( exists $seen_states{ "@state" } ) {
         last;
     }
     else {
-        $seen_states{ join( '', @state ) } = $count;
+        $seen_states{ "@state" } = $count;
     }
 }
 say "Part 1: $count";
-say "Part 2: ", $count - $seen_states{ join( '', @state ) };
+say "Part 2: ", $count - $seen_states{ "@state" };
 
