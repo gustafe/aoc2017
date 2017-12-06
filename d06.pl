@@ -1,9 +1,10 @@
+#!/usr/bin/perl
 # Advent of Code 2017 Day 6 - complete solution
 # Problem link: http://adventofcode.com/2017/day/6
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d06
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-#!/usr/bin/perl
+
 use 5.016;    # implies strict, provides 'say'
 use warnings;
 use autodie;
@@ -32,7 +33,7 @@ $seen_states{ "@state" } = $count;
 while (1) {
     my $largest_el = max @state;
     my @positions  = grep { $state[$_] == $largest_el } (0 .. $#state);
-    # we might have more than one position with the same number of elemens
+    # we might have more than one position with the same number of elements
     # choose the first
     my $start      = shift @positions;
     my $blocks     = $state[$start];

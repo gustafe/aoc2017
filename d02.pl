@@ -1,9 +1,9 @@
+#!/usr/bin/perl
 # Advent of Code 2017 Day 2 - complete solution
 # Problem link: http://adventofcode.com/2017/day/2
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d02
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-#!/usr/bin/perl
 use 5.016;    # implies strict, provides 'say'
 use warnings;
 use autodie;
