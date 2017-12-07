@@ -35,7 +35,8 @@ sub total_weight {
     return $weight;
 }
 
-# compare the weights of a base tower's children, return corrected weight
+# compare the weights of a base tower's children, exit and print
+# corrected weight
 sub compare_levels {
     my ( $base, $diff ) = @_;
     my %values;
@@ -45,11 +46,12 @@ sub compare_levels {
 
     # do we have any diffs?
     if ( scalar keys %values == 1 )
-    {    # no diffs, return corrected weight of parent
+    {    # no diffs, print corrected weight of parent and exit
         say "Part 2: ", $towers{$base}->{weight} - $diff;
         return;
     }
-    else {    # calculate new diff (should be the same but it doesn't matter)
+    else {    # calculate new diff (should be the same for each step
+              # but we might as well have the latest value...
         my ( $lo, $hi ) = sort { $a <=> $b } keys %values;
         $diff = $hi - $lo;
     }
