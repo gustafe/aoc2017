@@ -42,7 +42,6 @@ sub compare {
     my $ret   = undef;
 
     # from stats, we have: != < <= == > >=
-    # could have used 'eval' here but am not comfortable with it
     if    ( $cmp eq '!=' ) { $ret = ( $arg_1 != $arg_2 ) }
     elsif ( $cmp eq '<'  ) { $ret = ( $arg_1 <  $arg_2 ) }
     elsif ( $cmp eq '<=' ) { $ret = ( $arg_1 <= $arg_2 ) }
@@ -76,6 +75,10 @@ foreach my $line (@input) {
 }
 say "Part 1: ", max values %registers;
 say "Part 2: $max_val";
+
+#################################################################
+# this code was used to analyze the input before implementing the
+# solution code
 
 if ($gather_stats) {
     for my $i ( 0 .. $#stats ) {
