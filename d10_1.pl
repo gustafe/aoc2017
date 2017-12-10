@@ -18,25 +18,11 @@ while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 ### CODE
 my @array = $testing ? ( 0 .. 4 ) : ( 0 .. 255 );
 my @lengths = split( /\,/, shift @input );
-
+sub dump_state;
 my $skip = 0;
 my $pos  = 0;
 my $len  = 0;
 
-sub dump_state {
-    printf( "curr length: %d curr skip: %d next pos: %d\n",
-	    $len, $skip, $pos );
-    my @copy = @array;
-    if ($testing) {
-        say join( ' ', map { sprintf( "%2d", $_ ) } @copy );
-    }
-    else {
-        while (@copy) {
-            my @row = splice( @copy, 0, 16 );
-            say join( ' ', map { sprintf( "%3d", $_ ) } @row );
-        }
-    }
-}
 dump_state if $testing;
 while (@lengths) {
     $len = shift @lengths;
@@ -64,3 +50,20 @@ while (@lengths) {
     dump_state if $testing;
 }
 say $array[0] * $array[1];
+
+########################################
+
+sub dump_state {
+    printf( "curr length: %d curr skip: %d next pos: %d\n",
+	    $len, $skip, $pos );
+    my @copy = @array;
+    if ($testing) {
+        say join( ' ', map { sprintf( "%2d", $_ ) } @copy );
+    }
+    else {
+        while (@copy) {
+            my @row = splice( @copy, 0, 16 );
+            say join( ' ', map { sprintf( "%3d", $_ ) } @row );
+        }
+    }
+}

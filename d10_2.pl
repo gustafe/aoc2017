@@ -31,22 +31,7 @@ else {
 my $skip = 0;
 my $pos  = 0;
 my $len  = 0;
-
-sub array_to_hex {
-    my $string;
-    while (@array) {
-        my @row = splice( @array, 0, 16 );
-        my $xor;
-        my $el_1 = shift @row;
-        while (@row) {
-            my $el_2 = shift @row;
-            $xor  = $el_1 ^ $el_2;
-            $el_1 = $xor;
-        }
-        $string .= sprintf( "%02x", $xor );
-    }
-    return $string;
-}
+sub array_to_hex;
 
 foreach my $round ( 1 .. 64 ) {
     my @lengths = @key;
@@ -75,3 +60,20 @@ foreach my $round ( 1 .. 64 ) {
 }
 say array_to_hex;
 
+########################################
+
+sub array_to_hex {
+    my $string;
+    while (@array) {
+        my @row = splice( @array, 0, 16 );
+        my $xor;
+        my $el_1 = shift @row;
+        while (@row) {
+            my $el_2 = shift @row;
+            $xor  = $el_1 ^ $el_2;
+            $el_1 = $xor;
+        }
+        $string .= sprintf( "%02x", $xor );
+    }
+    return $string;
+}
