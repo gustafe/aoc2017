@@ -10,21 +10,20 @@ use autodie;
 use List::Util qw/max/;
 
 #### INIT - load input data from file into array
-my $testing = 0;
 my @input;
-my $file = $testing ? 'test.txt' : 'input.txt';
+my $file = 'input.txt';
 open( my $fh, '<', "$file" );
 while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 
 ### CODE
 # x,y,z coordinates - see https://www.redblobgames.com/grids/hexagons/
 my %move = (
-    n  => sub { [  0,  1, -1 ] },
-    ne => sub { [  1,  0, -1 ] },
-    se => sub { [  1, -1,  0 ] },
-    s  => sub { [  0, -1,  1 ] },
-    sw => sub { [ -1,  0,  1 ] },
-    nw => sub { [ -1,  1,  0 ] },
+    n  => sub { [ 0,  1,  -1 ] },
+    ne => sub { [ 1,  0,  -1 ] },
+    se => sub { [ 1,  -1, 0 ] },
+    s  => sub { [ 0,  -1, 1 ] },
+    sw => sub { [ -1, 0,  1 ] },
+    nw => sub { [ -1, 1,  0 ] },
 );
 
 my @dirs = split( /,/, shift @input );
@@ -32,22 +31,14 @@ my @path;
 
 #         x, y, z
 my $position = [ 0, 0, 0 ];
-my $max_dist = 0;
+my ( $dist, $max_dist ) = ( 0, 0 );
 while (@dirs) {
     my $ins = shift @dirs;
-    push @path, $ins;
-    my $d = $move{$ins}->();
-
-    for my $coord ( 0, 1, 2 ) {
-        $position->[$coord] = $position->[$coord] + $d->[$coord];
-    }
-    my $curr_dist = max( map { abs($_) } @$position );
-    $max_dist = $curr_dist if  ( $curr_dist > $max_dist );
+    my $d   = $move{$ins}->();
+    map { $position->[$_] += $d->[$_] } 0 .. 2;
+    $dist = max( map { abs($_) } @$position );
+    $max_dist = max( $max_dist, $dist );
 }
-if ($testing) {
-    print join( ' -> ', @path ), ' ';
-}
-say "End position: ", join( ',', @$position );
-say "      Part 1: ", max( map { abs($_) } @$position );
-say "      Part 2: ", $max_dist;
+say "Part 1: ", $dist;
+say "Part 2: ", $max_dist;
 
