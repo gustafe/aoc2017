@@ -31,7 +31,7 @@ my @dirs = split( /,/, shift @input );
 my @path;
 
 #         x, y, z
-my $M = [ 0, 0, 0 ];
+my $position = [ 0, 0, 0 ];
 my $max_dist = 0;
 while (@dirs) {
     my $ins = shift @dirs;
@@ -39,17 +39,15 @@ while (@dirs) {
     my $d = $move{$ins}->();
 
     for my $coord ( 0, 1, 2 ) {
-        $M->[$coord] = $M->[$coord] + $d->[$coord];
+        $position->[$coord] = $position->[$coord] + $d->[$coord];
     }
-    my $curr_dist = max( map { abs($_) } @$M );
-    if ( $curr_dist > $max_dist ) {
-        $max_dist = $curr_dist;
-    }
+    my $curr_dist = max( map { abs($_) } @$position );
+    $max_dist = $curr_dist if  ( $curr_dist > $max_dist );
 }
 if ($testing) {
     print join( ' -> ', @path ), ' ';
 }
-say "End position: ", join( ',', @$M );
-say "      Part 1: ", max( map { abs($_) } @$M );
+say "End position: ", join( ',', @$position );
+say "      Part 1: ", max( map { abs($_) } @$position );
 say "      Part 2: ", $max_dist;
 
