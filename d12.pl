@@ -31,7 +31,7 @@ while (@input) {
 
 my %seen;
 my %groups;
-foreach my $id ( keys %pipes ) {
+foreach my $id ( sort keys %pipes ) {
     next if $seen{$id};
     my %connections = ( $id => 1 );
     my @list = @{ $pipes{$id} };
@@ -44,5 +44,5 @@ foreach my $id ( keys %pipes ) {
     }
     $groups{$id} = \%connections;
 }
-say "Part 1: ", scalar keys %{ $groups{'0'} }, " connections to 0";
-say "Part 2: ", scalar keys %groups, " total groups";
+say "1. connections to '0': ", scalar keys %{ $groups{'0'} };
+say "2. total groups      : ", scalar keys %groups;
