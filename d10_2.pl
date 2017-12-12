@@ -58,7 +58,7 @@ foreach my $round ( 1 .. 64 ) {
         $skip++;
     }
 }
-say array_to_hex;
+say "Knot Hash of puzzle input: ", array_to_hex;
 
 ########################################
 

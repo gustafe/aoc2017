@@ -49,7 +49,7 @@ while (@lengths) {
     $skip++;
     dump_state if $testing;
 }
-say $array[0] * $array[1];
+say "Product of first 2 elements: ",$array[0] * $array[1];
 
 ########################################
 

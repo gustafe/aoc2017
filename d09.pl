@@ -8,10 +8,6 @@ use 5.016;
 use warnings;
 use autodie;
 
-# useful modules
-use List::Util qw/sum/;
-use Data::Dumper;
-
 #### INIT - load input data from file into array
 my $testing = 0;
 my @input;
@@ -80,5 +76,5 @@ while (@stream) {
         $garbage_count++ if @garbage;
     }
 }
-say "Part 1: $score";
-say "Part 2: $garbage_count";
+say "1. total score              : $score";
+say "2. characters within garbage: $garbage_count";

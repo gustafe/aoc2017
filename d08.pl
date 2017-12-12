@@ -4,7 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d08
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 use List::Util qw/max/;
@@ -73,8 +73,8 @@ foreach my $line (@input) {
         $registers{$target} = $curr;
     }
 }
-say "Part 1: ", max values %registers;
-say "Part 2: $max_val";
+say "1. largest value when done : ", max values %registers;
+say "2. largest value during run: ", $max_val;
 
 #################################################################
 # this code was used to analyze the input before implementing the

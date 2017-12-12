@@ -39,6 +39,5 @@ while (@dirs) {
     $dist = max( map { abs($_) } @$position );
     $max_dist = max( $max_dist, $dist );
 }
-say "Part 1: ", $dist;
-say "Part 2: ", $max_dist;
-
+say "1. steps to end point: ", $dist;
+say "2. max distance      : ", $max_dist;

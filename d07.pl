@@ -4,7 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d07
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 
@@ -47,7 +47,7 @@ sub compare_levels {
     # do we have any diffs?
     if ( scalar keys %values == 1 )
     {    # no diffs, print corrected weight of parent and exit
-        say "Part 2: ", $towers{$base}->{weight} - $diff;
+        say "2. adjusted weight  : ", $towers{$base}->{weight} - $diff;
         return;
     }
     else {    # calculate new diff (should be the same for each step
@@ -97,6 +97,6 @@ foreach my $tower ( keys %towers ) {
         last;
     }
 }
-say "Part 1: $root";
+say "1. name of root disk: $root";
 compare_levels( $root, 0 );
 
