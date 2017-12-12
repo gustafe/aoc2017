@@ -4,7 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d04
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 
@@ -26,4 +26,5 @@ foreach my $line (@input) {
     $count_2++ if ( scalar @passphrase == scalar keys %anagrams );
 }
 
-say "Part 1: $count_1\nPart 2: $count_2";
+say "1. Number of valid passphrases: $count_1";
+say "2. Number of valid passwords  : $count_2";

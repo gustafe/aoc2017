@@ -4,7 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d03
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 use List::Util qw/min/;
@@ -47,4 +47,4 @@ while (1) {
     $x++;
 }
 
-say $distance;
+say "Steps to take: $distance";

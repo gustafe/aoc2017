@@ -4,11 +4,9 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d01
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
-use List::Util qw/sum/;
-use Data::Dumper;
 
 #### INIT - load input data into array
 my $testing = 0;
@@ -33,5 +31,5 @@ for ( my $i = 0 ; $i <= $length - 1 ; $i++ ) {
 
     if ( $check[$i] == $check[$j] ) { $sum_2 += $check[$i] }
 }
-say "Part 1: $sum_1";
-say "Part 2: $sum_2";
+say "Captcha 1: $sum_1";
+say "Captcha 2: $sum_2";

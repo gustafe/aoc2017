@@ -4,8 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d06
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 use List::Util qw/max/;
@@ -54,6 +53,6 @@ while (1) {
         $seen_states{ "@state" } = $count;
     }
 }
-say "Part 1: $count";
-say "Part 2: ", $count - $seen_states{ "@state" };
+say "1. number of cycles: $count";
+say "2. size of loop    : ", $count - $seen_states{ "@state" };
 

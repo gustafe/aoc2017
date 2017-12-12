@@ -4,7 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d05
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 
@@ -46,4 +46,5 @@ while ( $pointer >= 0 and $pointer < scalar @input ) {
     }
     debug if $testing;
 }
-say $steps;
+print 'Part ' , $part2 ? '2' : '1' ,  '. ';
+say "number of steps: $steps";

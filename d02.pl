@@ -4,7 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d02
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 use List::Util qw/max min/;
@@ -38,5 +38,5 @@ foreach my $line (@input) {
         }
     }
 }
-say "Part1: $sum_1";
-say "Part2: $sum_2";
+say "Checksum      : $sum_1";
+say "Sum of results: $sum_2";

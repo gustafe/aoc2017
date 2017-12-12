@@ -4,7 +4,7 @@
 #   Discussion: http://gerikson.com/blog/comp/Advent-of-Code-2017.html#d03
 #      License: http://gerikson.com/files/AoC2017/UNLICENSE
 ###########################################################
-use 5.016;    # implies strict, provides 'say'
+use 5.016;
 use warnings;
 use autodie;
 use List::Util qw/sum/;
@@ -87,4 +87,4 @@ LOOP: while ( my $step = NEXTVAL($iter) ) {
     $dir_idx++;
 
 }
-say $current_val;
+say "First value larger than $target: $current_val";
