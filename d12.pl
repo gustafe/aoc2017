@@ -20,12 +20,10 @@ my %pipes;
 while (@input) {
     my $line = shift @input;
     if ( $line =~ /^(\d+)\ \<\-\>\ (.*)$/ ) {
-        my @inputs = ($1);
-        my @rhs = split( ', ', $2 );
-        $pipes{$1} = \@rhs;
+        $pipes{$1} = [split( ', ', $2 )];
     }
     else {
-        die "cannot recognize input line: $line";
+        die "cannot parse input line: $line";
     }
 }
 
