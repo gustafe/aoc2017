@@ -21,7 +21,7 @@ my ( $score, $invalid_flag, $garbage_count ) = ( 0, 0, 0 );
 my @groups;
 my @garbage;
 
-# dispatch table and subs
+# dispatch table
 my %act = (
     '{' => \&open_group,
     '}' => \&close_group,
@@ -29,6 +29,29 @@ my %act = (
     '>' => sub { pop @garbage },
     '!' => sub { $invalid_flag = 1 if @garbage },
 );
+
+# process the stream
+my @stream = split( //, shift @input );
+my $char;
+while (@stream) {
+    $char = shift @stream;
+
+    if ($invalid_flag) {
+        $invalid_flag = 0;
+        next;
+    }
+    
+    if ( defined $act{$char} ) {
+        $act{$char}->();
+    }
+    else {
+        $garbage_count++ if @garbage;
+    }
+}
+say "1. total score              : $score";
+say "2. characters within garbage: $garbage_count";
+
+########################################
 
 sub open_group {
     if ( !@garbage ) {
@@ -57,24 +80,3 @@ sub garbage_in {
         $garbage_count++;
     }
 }
-
-# process the stream
-my @stream = split( //, shift @input );
-my $char;
-while (@stream) {
-    $char = shift @stream;
-
-    if ($invalid_flag) {
-        $invalid_flag = 0;
-        next;
-    }
-    
-    if ( defined $act{$char} ) {
-        $act{$char}->();
-    }
-    else {
-        $garbage_count++ if @garbage;
-    }
-}
-say "1. total score              : $score";
-say "2. characters within garbage: $garbage_count";

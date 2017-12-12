@@ -17,10 +17,33 @@ open( my $fh, '<', "$file" );
 while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 
 ### CODE
-my $gather_stats = 0;
-my @stats;
 my %registers;
 my $max_val = 0;
+
+sub value_of;
+sub compare;
+foreach my $line (@input) {
+    my @args = split( /\s+/, $line );
+
+    my ( $target, $inc_dec, $val_1, $if, $source, $cmp, $val_2 ) = @args;
+
+    my $curr = value_of($target);
+
+    if ( compare( $source, $cmp, $val_2 ) ) {
+        if ( $inc_dec eq 'inc' ) {
+            $curr = $curr + $val_1;
+        }
+        else {
+            $curr = $curr - $val_1;
+        }
+        $max_val = $curr if ( $curr > $max_val );
+        $registers{$target} = $curr;
+    }
+}
+say "1. largest value when done : ", max values %registers;
+say "2. largest value during run: ", $max_val;
+
+#################################################################
 
 sub value_of {
     my ($v) = @_;
@@ -50,42 +73,4 @@ sub compare {
     elsif ( $cmp eq '>=' ) { $ret = ( $arg_1 >= $arg_2 ) }
     die "can't set return value based on args" unless defined $ret;
     return $ret;
-}
-foreach my $line (@input) {
-    my @args = split( /\s+/, $line );
-    if ($gather_stats) {
-        for my $i ( 0 .. $#args ) {
-            $stats[$i]->{ $args[$i] }++;
-        }
-    }
-    my ( $target, $inc_dec, $val_1, $if, $source, $cmp, $val_2 ) = @args;
-
-    my $curr = value_of($target);
-
-    if ( compare( $source, $cmp, $val_2 ) ) {
-        if ( $inc_dec eq 'inc' ) {
-            $curr = $curr + $val_1;
-        }
-        else {
-            $curr = $curr - $val_1;
-        }
-        $max_val = $curr if ( $curr > $max_val );
-        $registers{$target} = $curr;
-    }
-}
-say "1. largest value when done : ", max values %registers;
-say "2. largest value during run: ", $max_val;
-
-#################################################################
-# this code was used to analyze the input before implementing the
-# solution code
-
-if ($gather_stats) {
-    for my $i ( 0 .. $#stats ) {
-        say "==> pos $i";
-        my %h = %{ $stats[$i] };
-        foreach my $el ( sort { $a cmp $b } keys %h ) {
-            say join( "\t", $el, $h{$el} );
-        }
-    }
 }

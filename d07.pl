@@ -18,6 +18,41 @@ while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 ### CODE
 my %towers;
 
+sub total_weight;
+sub compare_levels;
+
+# construct a hash holding values - weights and children
+foreach my $line (@input) {
+    if ( $line =~ m/^(?<tower>.*) \((?<weight>\d+)\) \-\> (?<list>.*)$/ ) {
+        my  $tower  = $+{tower};
+        $towers{$tower}->{weight} = $+{weight};
+        foreach my $el ( split( /\,/, $+{list} ) ) {
+            $el =~ s/^\s+|\s+$//g;    # trim whitespace
+            $towers{$el}->{held_by} = $tower;
+            push @{ $towers{$tower}->{holding} }, $el;
+        }
+    }
+    elsif ( $line =~ m/^(?<tower>.*) \((?<weight>\d+)\)$/ ) {
+        $towers{$+{tower}}->{weight} = $+{weight};
+    }
+    else {
+        die "can't parse input line: $line\n";
+    }
+}
+
+# find the root (part 1)
+my $root;
+foreach my $tower ( keys %towers ) {
+    if ( !exists $towers{$tower}->{held_by} ) {
+        $root = $tower;
+        last;
+    }
+}
+say "1. name of root disk: $root";
+say "2. adjusted weight  : ", compare_levels( $root, 0 );
+
+########################################
+
 # recursively calculate the weight of a tower, given a base
 sub total_weight {
     my ($base) = @_;
@@ -35,8 +70,8 @@ sub total_weight {
     return $weight;
 }
 
-# compare the weights of a base tower's children, exit and print
-# corrected weight
+# compare the weights of a base tower's children, return corrected
+# weight
 sub compare_levels {
     my ( $base, $diff ) = @_;
     my %values;
@@ -46,9 +81,8 @@ sub compare_levels {
 
     # do we have any diffs?
     if ( scalar keys %values == 1 )
-    {    # no diffs, print corrected weight of parent and exit
-        say "2. adjusted weight  : ", $towers{$base}->{weight} - $diff;
-        return;
+    {    # no diffs, return corrected weight of parent
+        return $towers{$base}->{weight} - $diff;
     }
     else {    # calculate new diff (should be the same for each step
               # but we might as well have the latest value...
@@ -65,38 +99,3 @@ sub compare_levels {
     }
     compare_levels( $differing, $diff );
 }
-
-# construct a hash holding values - weights and children
-foreach my $line (@input) {
-    my ( $tower, $weight, $list );
-    if ( $line =~ m/^(.*) \((\d+)\) \-\> (.*)$/ ) {
-        $tower  = $1;
-        $weight = $2;
-        $list   = $3;
-
-        $towers{$tower}->{weight} = $weight;
-        foreach my $el ( split( /\,/, $list ) ) {
-            $el =~ s/^\s+|\s+$//g;    # trim whitespace
-            $towers{$el}->{held_by} = $tower;
-            push @{ $towers{$tower}->{holding} }, $el;
-        }
-    }
-    elsif ( $line =~ m/^(.*) \((\d+)\)$/ ) {
-        $towers{$1}->{weight} = $2;
-    }
-    else {
-        die "can't parse input line: $line\n";
-    }
-}
-
-# find the root (part 1)
-my $root;
-foreach my $tower ( keys %towers ) {
-    if ( !exists $towers{$tower}->{held_by} ) {
-        $root = $tower;
-        last;
-    }
-}
-say "1. name of root disk: $root";
-compare_levels( $root, 0 );
-
