@@ -54,7 +54,6 @@ my $starter = NEXTVAL($iter1);
 
 my $delay = 1;
 while (1) {
-    say "==> $delay" if $delay % 10000 == 0;
     my $curr     = 0;
     my $hit      = 0;
     my $firewall = dclone $starter;
