@@ -59,4 +59,4 @@ while ( $curr <= $max ) {
     $curr++;
 
 }
-say $severity;
+say "Severity: ",$severity;

@@ -71,4 +71,4 @@ while (1) {
     $starter = NEXTVAL($iter1);
 }
 
-say $delay;
+say "Delay: ",$delay;
