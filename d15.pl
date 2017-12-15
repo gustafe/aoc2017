@@ -21,6 +21,10 @@ while (<$fh>) { chomp; s/\r//gm; push @input, $_; }
 my $part2 = shift || 0;
 
 my @start;
+my @factors = ( 16807, 48271 );
+my @evendivs = $part2 ? ( 4, 8 ) : ( undef, undef );
+my $divisor  = 2147483647;
+my $mask     = 0xFFFF;
 
 while (@input) {
     my $str = shift @input;
@@ -31,10 +35,8 @@ while (@input) {
         die "can't parse input: $str";
     }
 }
-my @factors = ( 16807, 48271 );
-my @evendivs = $part2 ? ( 4, 8 ) : ( undef, undef );
-my $divisor = 2147483647;
 
+# cribbed from HOP
 sub NEXTVAL      { $_[0]->() }
 sub Iterator (&) { return $_[0] }
 
@@ -67,11 +69,7 @@ my $gen_B = generator( $start[1], $factors[1], $evendivs[1] );
 my $LIMIT = 1_000_000 * ( $part2 ? 5 : 40 );
 
 while ( $count <= $LIMIT ) {
-    my $next_a = NEXTVAL($gen_A) & ( 1 << 16 ) - 1;
-    my $next_b = NEXTVAL($gen_B) & ( 1 << 16 ) - 1;
-    if ( defined $next_a and defined $next_b and $next_a eq $next_b ) {
-        $match++;
-    }
+    $match++ if ( ( NEXTVAL($gen_A) & $mask ) == ( NEXTVAL($gen_B) & $mask ) );
     $count++;
 }
 printf "No. of matches for part %d: %d\n", $part2 ? 2 : 1, $match;
