@@ -20,14 +20,14 @@ my $steps = $input[0];
 
 my $val     = 1;
 my $size    = 1;
-my $landing = 1;
-my $second;
+my $pos = 1;
+my $index_1;
 while ( $val <= 50_000_000 ) {
-    $landing = ( ( $landing + $steps ) % $size ) + 1;
+    $pos = ( ( $pos + $steps ) % $size ) + 1;
     $size++;
-    if ( $landing == 1 ) {
-        $second = $val;
+    if ( $pos == 1 ) {
+        $index_1 = $val;
     }
     $val++;
 }
-say "2. value after    0 is: $second";
+say "2. value after    0 is: $index_1";
