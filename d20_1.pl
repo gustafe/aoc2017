@@ -40,7 +40,7 @@ my $closest =
   ( sort { $positions{$a}->{d} <=> $positions{$b}->{d} } keys %positions )[0];
 my $compare = -1;
 
-for my $count ( 0 .. 500 ) {    # limit found by inspection
+for my $count ( 0 .. 391 ) {    # limit found by inspection
     $compare = $closest;
     foreach my $id ( keys %positions ) {
         foreach my $m ( 0, 1, 2 ) {
